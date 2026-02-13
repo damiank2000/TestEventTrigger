@@ -1,5 +1,7 @@
 using Microsoft.Azure.Functions.Worker.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using TestEventTrigger;
 
 var builder = FunctionsApplication.CreateBuilder(args);
@@ -11,17 +13,19 @@ builder.ConfigureFunctionsWebApplication();
 
 // With this call in the logs don't appear in traces
 // BUT Root ID was populated in the Test/Run window
-builder.SendLogsDirectlyToAppInsights();
+builder.RouteLoggingDirectlyToAppInsights();
 
-// 4) still no traces
-//builder.Services.AddLogging();
+// "Adds the logging framework"
+// Probably useless
+builder.Services.AddLogging();
 
-// 5) putting this back makes no difference
-// WHERE ARE ALL THE TRACES NOW?
-//builder.Logging.AddApplicationInsights();
+// "Send ILogger logs to Application Insights"
+// Should happen anyway by default
+builder.Logging.AddApplicationInsights();
 
-// 3) adding this back Test/Run was still working
-// but still seeing nothing in traces
-//builder.Logging.SetMinimumLevel(LogLevel.Trace);
+// "Don't even consider logs below this level"
+// With the default Worker logging, this is controlled by host.json
+// and with logging direct to App Insights, you have to remove the rule via code.
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
 builder.Build().Run();
