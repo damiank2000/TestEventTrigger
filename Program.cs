@@ -20,6 +20,19 @@ builder.Services.AddApplicationInsightsTelemetryWorkerService();
 // Function refused to start up!
 builder.Services.ConfigureFunctionsApplicationInsights();
 
+// from https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide?tabs=ihostapplicationbuilder%2Ccode%2Cwindows#application-insights
+// disable default log level when writing directly to App Insights
+// by default only Warning and above would be logged
+builder.Logging.Services.Configure<LoggerFilterOptions>(options =>
+{
+    LoggerFilterRule? defaultRule = options.Rules.FirstOrDefault(rule => rule.ProviderName
+        == "Microsoft.Extensions.Logging.ApplicationInsights.ApplicationInsightsLoggerProvider");
+    if (defaultRule is not null)
+    {
+        options.Rules.Remove(defaultRule);
+    }
+});
+
 // 4) still no traces
 //builder.Services.AddLogging();
 
