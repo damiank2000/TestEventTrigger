@@ -18,7 +18,7 @@ builder.Services.AddApplicationInsightsTelemetryWorkerService();
 
 // 2) what about adding this on its own?
 // Function refused to start up!
-//builder.Services.ConfigureFunctionsApplicationInsights();
+builder.Services.ConfigureFunctionsApplicationInsights();
 
 // 4) still no traces
 //builder.Services.AddLogging();

@@ -18,6 +18,8 @@ public class TestEventTrigger3(ILogger<TestEventTrigger3> logger)
     {
         var operationId = GetOperationId();
 
+        _logger.LogWarning("TestEventTrigger: This is a warning!");
+
         _logger.LogInformation("TestEventTrigger: function triggered with operationId {OperationId}.", operationId);
 
         var rootId = Activity.Current?.RootId;
