@@ -13,19 +13,19 @@ builder.ConfigureFunctionsWebApplication();
 
 // With this call in the logs don't appear in traces
 // BUT Root ID was populated in the Test/Run window
-builder.RouteLoggingDirectlyToAppInsights();
+//builder.RouteLoggingDirectlyToAppInsights();
 
 // "Adds the logging framework"
 // Probably useless
-builder.Services.AddLogging();
+//builder.Services.AddLogging();
 
 // "Send ILogger logs to Application Insights"
 // Should happen anyway by default
-builder.Logging.AddApplicationInsights();
+//builder.Logging.AddApplicationInsights();
 
 // "Don't even consider logs below this level"
 // With the default Worker logging, this is controlled by host.json
 // and with logging direct to App Insights, you have to remove the rule via code.
-builder.Logging.SetMinimumLevel(LogLevel.Trace);
+//builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
 builder.Build().Run();
